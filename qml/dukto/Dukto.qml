@@ -40,15 +40,25 @@ Rectangle {
 
     Connections {
          target: guiBehind
-         onTransferStart: duktoOverlay.state = "progress"
-         onReceiveCompleted: {
-             duktoOverlay.state = ""
-             duktoInner.gotoPage("recent");
+         function onTransferStart() {
+             duktoOverlay.state = "progress"
          }
-         onGotoTextSnippet: duktoOverlay.state = "showtext"
-         onGotoSendPage: duktoOverlay.state = "send";
-         onGotoMessagePage: duktoOverlay.state = "message";
-         onHideAllOverlays: duktoOverlay.state = "";
+         function onReceiveCompleted() {
+             duktoOverlay.state = ""
+             duktoInner.gotoPage("recent")
+         }
+         function onGotoTextSnippet() {
+             duktoOverlay.state = "showtext"
+         }
+         function onGotoSendPage() {
+             duktoOverlay.state = "send"
+         }
+         function onGotoMessagePage() {
+             duktoOverlay.state = "message"
+         }
+         function onHideAllOverlays() {
+             duktoOverlay.state = ""
+         }
     }
 
     DuktoInner {
