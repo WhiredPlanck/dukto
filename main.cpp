@@ -16,38 +16,41 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include <QtGui/QApplication>
+#include <QApplication>
 #include "qmlapplicationviewer.h"
 
 #include "guibehind.h"
 #include "duktowindow.h"
+#include <SingleApplication>
 
-#if defined(Q_WS_S60)
+#if defined(Q_OS_S60)
 #define SYMBIAN
 #endif
 
-#if defined(Q_WS_SIMULATOR)
+#if defined(Q_OS_SIMULATOR)
 #define SYMBIAN
-#endif
-
-#ifndef SYMBIAN
-#include "qtsingleapplication.h"
 #endif
 
 int main(int argc, char *argv[])
 {
-#if defined(Q_WS_X11)
-    QApplication::setGraphicsSystem("raster");
-#elif defined (Q_WS_WIN)
+#if defined(Q_OS_LINUX)
+    //QApplication::setGraphicsSystem("raster");
+#elif defined (Q_OS_WIN)
     qputenv("QML_ENABLE_TEXT_IMAGE_CACHE", "true");
 #endif
 
 #if defined(SYMBIAN)
     QApplication app(argc, argv);
 #else
-    // Check for single running instance    
+    // Check for single running instance
+    /*
     QtSingleApplication app(argc, argv);
     if (app.isRunning()) {
+        app.sendMessage("FOREGROUND");
+        return 0;
+    } */
+    SingleApplication app(argc, argv);
+    if (app.isSecondary()) {
         app.sendMessage("FOREGROUND");
         return 0;
     }
@@ -55,11 +58,11 @@ int main(int argc, char *argv[])
 
     DuktoWindow viewer;
 #ifndef SYMBIAN
-    app.setActivationWindow(&viewer, true);
+    app.setActiveWindow(&viewer);
 #endif
     GuiBehind gb(&viewer);
 
-#ifndef Q_WS_S60
+#ifndef Q_OS_S60
     viewer.showExpanded();
     app.installEventFilter(&gb);
 #else

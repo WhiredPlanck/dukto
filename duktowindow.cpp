@@ -25,14 +25,15 @@
 #include <QDragMoveEvent>
 #include <QDragLeaveEvent>
 #include <QDropEvent>
+#include <QMimeData>
 
-DuktoWindow::DuktoWindow(QWidget *parent) :
+DuktoWindow::DuktoWindow(QQuickWidget *parent) :
     QmlApplicationViewer(parent), mGuiBehind(NULL)
 {
     // Configure window
     setAcceptDrops(true);
     setWindowTitle("Dukto");
-#ifndef Q_WS_S60
+#ifndef Q_OS_S60
     setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint);
     setMaximumSize(350, 5000);
     setMinimumSize(350, 500);
@@ -43,7 +44,7 @@ DuktoWindow::DuktoWindow(QWidget *parent) :
     mWin7.init(this->winId());
 }
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 bool DuktoWindow::winEvent(MSG * message, long * result)
 {
     return mWin7.winEvent(message, result);

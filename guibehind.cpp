@@ -25,25 +25,27 @@
 #include "updateschecker.h"
 
 #include <QHash>
-#include <QDeclarativeView>
-#include <QDeclarativeContext>
+#include <QQuickView>
+#include <QQmlContext>
 #include <QTimer>
+#include <QDateTime>
 #include <QDesktopServices>
 #include <QDir>
 #include <QFileDialog>
 #include <QClipboard>
 #include <QApplication>
-#include <QDeclarativeProperty>
+#include <QQmlProperty>
 #include <QGraphicsObject>
 #include <QRegExp>
 #include <QThread>
 #include <QTemporaryFile>
 #include <QDesktopWidget>
-#if defined(Q_WS_S60)
+//#include <QRandomGenerator>
+#if defined(Q_OS_S60)
 #define SYMBIAN
 #endif
 
-#if defined(Q_WS_SIMULATOR)
+#if defined(Q_OS_SIMULATOR)
 #define SYMBIAN
 #endif
 
@@ -128,13 +130,14 @@ GuiBehind::GuiBehind(DuktoWindow* view) :
     // Load GUI
     view->setSource(QUrl("qrc:/qml/dukto/Dukto.qml"));
     //view->setSource(QUrl::fromLocalFile("c:/users/emanuele/documenti/dukto/qml/dukto/Dukto.qml"));
-#ifndef Q_WS_S60
+#ifndef Q_OS_S60
     view->restoreGeometry(mSettings->windowGeometry());
 #endif
 
     // Start random rotate
     mShowBackTimer = new QTimer(this);
     connect(mShowBackTimer, SIGNAL(timeout()), this, SLOT(showRandomBack()));
+    //QRandomGenerator::global()->seed(QDateTime::currentDateTime().toTime_t());
     qsrand(QDateTime::currentDateTime().toTime_t());;
     mShowBackTimer->start(10000);
 
@@ -189,6 +192,7 @@ void GuiBehind::peerListRemoved(Peer peer) {
 void GuiBehind::showRandomBack()
 {
     // Look for a random element
+    //int i = (QRandomGenerator::global()->generate() * 1.0 / RAND_MAX) * (mBuddiesList.rowCount() + 1);
     int i = (qrand() * 1.0 / RAND_MAX) * (mBuddiesList.rowCount() + 1);
 
     // Show back
@@ -379,7 +383,7 @@ void GuiBehind::sendClipboardText()
 {
     // Get text to send
     QString text = mClipboard->text();
-#ifndef Q_WS_S60
+#ifndef Q_OS_S60
     if (text == "") return;
 #else
     if (text == "") {
@@ -522,7 +526,7 @@ void GuiBehind::sendFileComplete(QStringList *files)
 
     // Show completed message
     setMessagePageTitle("Send");
-#ifndef Q_WS_S60
+#ifndef Q_OS_S60
     setMessagePageText("Your data has been sent to your buddy!\n\nDo you want to send other files to your buddy? Just drag and drop them here!");
 #else
     setMessagePageText("Your data has been sent to your buddy!");
@@ -852,7 +856,7 @@ QString GuiBehind::buddyName()
     return mSettings->buddyName();
 }
 
-#if defined(Q_WS_S60)
+#if defined(Q_OS_S60)
 void GuiBehind::initConnection()
 {
     // Connection
