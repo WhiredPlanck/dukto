@@ -6,7 +6,7 @@
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
 
-QT += network
+QT += network widgets
 
 win32:RC_FILE = dukto.rc
 win32:LIBS += libWs2_32 libole32 libNetapi32
@@ -84,7 +84,9 @@ HEADERS += \
 RESOURCES += \
     qml.qrc
 
-include(qtsingleapplication/qtsingleapplication.pri)
+# include(qtsingleapplication/qtsingleapplication.pri)
+include(singleapplication/singleapplication.pri)
+DEFINES += QAPPLICATION_CLASS=QApplication
 
 OTHER_FILES +=
 
