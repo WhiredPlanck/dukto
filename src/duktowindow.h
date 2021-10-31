@@ -29,7 +29,7 @@ class DuktoWindow : public QmlApplicationViewer
     Q_OBJECT
 
 public:
-    explicit DuktoWindow(QQuickWidget *parent = 0);
+    explicit DuktoWindow(QQuickView *parent = 0);
     void setGuiBehindReference(GuiBehind* ref);
     inline EcWin7* win7() { return &mWin7; }
 

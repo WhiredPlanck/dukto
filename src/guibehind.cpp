@@ -37,10 +37,10 @@
 #include <QQmlProperty>
 #include <QGraphicsObject>
 #include <QRegExp>
+#include <QScreen>
 #include <QThread>
 #include <QTemporaryFile>
 #include <QDesktopWidget>
-//#include <QRandomGenerator>
 
 #define NETWORK_PORT 4644 // 6742
 
@@ -117,13 +117,13 @@ GuiBehind::GuiBehind(DuktoWindow* view) :
     // Load GUI
     view->setSource(QUrl("qrc:/qml/dukto/Dukto.qml"));
     //view->setSource(QUrl::fromLocalFile("c:/users/emanuele/documenti/dukto/qml/dukto/Dukto.qml"));
-    view->restoreGeometry(mSettings->windowGeometry());
+
+    //view->restoreGeometry(mSettings->windowGeometry());
 
     // Start random rotate
     mShowBackTimer = new QTimer(this);
     connect(mShowBackTimer, SIGNAL(timeout()), this, SLOT(showRandomBack()));
-    //QRandomGenerator::global()->seed(QDateTime::currentDateTime().toTime_t());
-    srand(QDateTime::currentDateTime().toTime_t());
+    srand(QDateTime::currentDateTime().toSecsSinceEpoch());
     mShowBackTimer->start(10000);
 
     // Enqueue check for updates
@@ -234,7 +234,7 @@ void GuiBehind::receiveFileComplete(QStringList *files, qint64 totalSize) {
 
     // Update GUI
     mView->win7()->setProgressState(EcWin7::NoProgress);
-    QApplication::alert(mView, 5000);
+    //QApplication::alert(mView, 5000);
     emit receiveCompleted();
 }
 
@@ -245,7 +245,7 @@ void GuiBehind::receiveTextComplete(QString *text, qint64 totalSize)
 
     // Update GUI
     mView->win7()->setProgressState(EcWin7::NoProgress);
-    QApplication::alert(mView, 5000);
+    //QApplication::alert(mView, 5000);
     emit receiveCompleted();
 }
 
@@ -270,21 +270,9 @@ void GuiBehind::openDestinationFolder()
 void GuiBehind::changeDestinationFolder()
 {
     // Show system dialog for folder selection
-    QString dirname = QFileDialog::getExistingDirectory(mView, "Change folder", ".",
+    QString dirname = QFileDialog::getExistingDirectory(nullptr, "Change folder", ".",
         QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     if (dirname == "") return;
-
-#ifdef SYMBIAN
-    // Disable saving on C:
-    if (dirname.toUpper().startsWith("C:")) {
-
-        setMessagePageTitle("Destination");
-        setMessagePageText("Receiving data on C: is disabled for security reasons. Please select another destination folder.");
-        setMessagePageBackState("settings");
-        emit gotoMessagePage();
-        return;
-    }
-#endif
 
     // Set the new folder as current
     QDir::setCurrent(dirname);
@@ -343,7 +331,7 @@ void GuiBehind::sendDroppedFiles(QStringList *files)
 void GuiBehind::sendSomeFiles()
 {
     // Show file selection dialog
-    QStringList files = QFileDialog::getOpenFileNames(mView, "Send some files");
+    QStringList files = QFileDialog::getOpenFileNames(nullptr, "Send some files");
     if (files.count() == 0) return;
 
     // Send files
@@ -354,7 +342,7 @@ void GuiBehind::sendSomeFiles()
 void GuiBehind::sendFolder()
 {
     // Show folder selection dialog
-    QString dirname = QFileDialog::getExistingDirectory(mView, "Change folder", ".",
+    QString dirname = QFileDialog::getExistingDirectory(nullptr, "Change folder", ".",
         QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     if (dirname == "") return;
 
@@ -396,7 +384,9 @@ void GuiBehind::sendScreen()
 void GuiBehind::sendScreenStage2() {
 
     // Screenshot
-    QPixmap screen = QPixmap::grabWindow(QApplication::desktop()->winId());
+    //QPixmap screen = QPixmap::grabWindow(QApplication::desktop()->winId());
+    QScreen *screen = QApplication::primaryScreen();
+    QPixmap pixmap = screen->grabWindow(QApplication::desktop()->winId());
 
     // Restore window
     mView->setWindowState(Qt::WindowActive);
@@ -407,7 +397,8 @@ void GuiBehind::sendScreenStage2() {
     tempFile.open();
     mScreenTempPath = tempFile.fileName();
     tempFile.close();
-    screen.save(mScreenTempPath, "JPG", 95);
+    //screen.save(mScreenTempPath, "JPG", 95);
+    pixmap.save(mScreenTempPath, "JPG", 95);
 
     // Prepare file transfer
     QString ip;

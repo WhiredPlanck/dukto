@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     }
 
     DuktoWindow viewer;
-    app.setActiveWindow(&viewer);
+    //app.setActiveWindow(&viewer);
     GuiBehind gb(&viewer);
 
     viewer.showExpanded();
