@@ -25,7 +25,7 @@
 #include "peer.h"
 
 BuddyListItemModel::BuddyListItemModel() :
-    QStandardItemModel(NULL)
+    QStandardItemModel(nullptr)
 {
     QHash<int, QByteArray> roleNames;
     roleNames[Ip] = "ip";
@@ -62,7 +62,7 @@ void BuddyListItemModel::addIpElement()
 
 void BuddyListItemModel::addBuddy(QString ip, qint16 port, QString username, QString system, QString platform, QUrl avatarPath)
 {
-    QStandardItem* it = NULL;
+    QStandardItem* it = nullptr;
     bool add = true;
 
     // Check if the same IP is alreay in the buddy list
@@ -170,7 +170,7 @@ QString BuddyListItemModel::buddyNameByIp(QString ip)
 
 QStandardItem* BuddyListItemModel::buddyByIp(QString ip)
 {
-    if (!mItemsMap.contains(ip)) return NULL;
+    if (!mItemsMap.contains(ip)) return nullptr;
     return mItemsMap.value(ip);
 }
 

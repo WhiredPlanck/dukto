@@ -28,7 +28,7 @@
 #include <QMimeData>
 
 DuktoWindow::DuktoWindow(QQuickWidget *parent) :
-    QmlApplicationViewer(parent), mGuiBehind(NULL)
+    QmlApplicationViewer(parent), mGuiBehind(nullptr)
 {
     // Configure window
     setAcceptDrops(true);

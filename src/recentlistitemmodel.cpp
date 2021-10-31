@@ -21,7 +21,7 @@
 #include <QDateTime>
 
 RecentListItemModel::RecentListItemModel() :
-    QStandardItemModel(NULL)
+    QStandardItemModel(nullptr)
 {
     QHash<int, QByteArray> roleNames;
     roleNames[Name] = "name";

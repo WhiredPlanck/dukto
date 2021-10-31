@@ -34,8 +34,8 @@
 #define DEFAULT_TCP_PORT 4644
 
 DuktoProtocol::DuktoProtocol()
-    : mSocket(NULL), mTcpServer(NULL), mCurrentSocket(NULL),
-        mCurrentFile(NULL), mFilesToSend(NULL)
+    : mSocket(nullptr), mTcpServer(nullptr), mCurrentSocket(nullptr),
+        mCurrentFile(nullptr), mFilesToSend(nullptr)
 {
     mLocalUdpPort = DEFAULT_UDP_PORT;
     mLocalTcpPort = DEFAULT_TCP_PORT;
@@ -221,7 +221,7 @@ void DuktoProtocol::newIncomingConnection()
         // Non ho ricevuto l'header della connessione, chiudo
         mCurrentSocket->close();
         delete mCurrentSocket;
-        mCurrentSocket = NULL;
+        mCurrentSocket = nullptr;
         return;
     }
 
@@ -324,12 +324,12 @@ void DuktoProtocol::readNewData()
                                 mCurrentSocket->disconnectFromHost();
                                 mCurrentSocket->close();
                                 mCurrentSocket->deleteLater();
-                                mCurrentSocket = NULL;
+                                mCurrentSocket = nullptr;
                             }
 
                             // Rilascio memoria
                             delete mReceivedFiles;
-                            mReceivedFiles = NULL;
+                            mReceivedFiles = nullptr;
 
                             // Impostazione stato
                             mIsReceiving = false;
@@ -345,7 +345,7 @@ void DuktoProtocol::readNewData()
                 mReceivedFiles->append(name);
                 mReceivingText = true;
                 mTextToReceive.clear();
-                mCurrentFile = NULL;
+                mCurrentFile = nullptr;
             }
 
             // Altrimenti creo il nuovo file
@@ -376,12 +376,12 @@ void DuktoProtocol::readNewData()
                                 mCurrentSocket->disconnectFromHost();
                                 mCurrentSocket->close();
                                 mCurrentSocket->deleteLater();
-                                mCurrentSocket = NULL;
+                                mCurrentSocket = nullptr;
             }
 
                             // Rilascio memoria
                             delete mReceivedFiles;
-                            mReceivedFiles = NULL;
+                            mReceivedFiles = nullptr;
 
                             // Impostazione stato
                             mIsReceiving = false;
@@ -420,7 +420,7 @@ void DuktoProtocol::readNewData()
             if (!mReceivingText)
             {
                 mCurrentFile->deleteLater();
-                mCurrentFile = NULL;
+                mCurrentFile = nullptr;
             }
                         mRecvStatus = FILENAME;
         }
@@ -449,7 +449,7 @@ void DuktoProtocol::closedConnection()
         name = mCurrentFile->fileName();
         mCurrentFile->close();
         delete mCurrentFile;
-        mCurrentFile = NULL;
+        mCurrentFile = nullptr;
         QFile::remove(name);
         receiveFileCancelled();
     }
@@ -472,12 +472,12 @@ void DuktoProtocol::closedConnection()
         mCurrentSocket->disconnectFromHost();
         mCurrentSocket->close();
         mCurrentSocket->deleteLater();
-        mCurrentSocket = NULL;
+        mCurrentSocket = nullptr;
     }
 
     // Rilascio memoria
     delete mReceivedFiles;
-    mReceivedFiles = NULL;
+    mReceivedFiles = nullptr;
 
     // Impostazione stato
     mIsReceiving = false;
@@ -666,18 +666,18 @@ void DuktoProtocol::closeCurrentTransfer(bool aborted)
         mCurrentSocket->waitForDisconnected(1000);
     mCurrentSocket->close();
     mCurrentSocket->deleteLater();
-    mCurrentSocket = NULL;
+    mCurrentSocket = nullptr;
     if (mCurrentFile)
     {
         mCurrentFile->close();
         delete mCurrentFile;
-        mCurrentFile = NULL;
+        mCurrentFile = nullptr;
     }
     mIsSending = false;
     if (!aborted)
         emit sendFileComplete(mFilesToSend);
     delete mFilesToSend;
-    mFilesToSend = NULL;
+    mFilesToSend = nullptr;
 
     return;
 }
@@ -698,13 +698,13 @@ void DuktoProtocol::sendConnectError(QAbstractSocket::SocketError e)
     {
         mCurrentSocket->close();
         mCurrentSocket->deleteLater();
-        mCurrentSocket = NULL;
+        mCurrentSocket = nullptr;
     }
     if (mCurrentFile)
     {
         mCurrentFile->close();
         delete mCurrentFile;
-        mCurrentFile = NULL;
+        mCurrentFile = nullptr;
     }
     mIsSending = false;
     sendFileError(e);
@@ -760,7 +760,7 @@ QByteArray DuktoProtocol::nextElementHeader()
     if (mCurrentFile) {
         mCurrentFile->close();
         delete mCurrentFile;
-        mCurrentFile = NULL;
+        mCurrentFile = nullptr;
     }
 
     // Verifico se si tratta di un invio testo

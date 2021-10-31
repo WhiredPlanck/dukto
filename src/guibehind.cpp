@@ -45,9 +45,9 @@
 #define NETWORK_PORT 4644 // 6742
 
 GuiBehind::GuiBehind(DuktoWindow* view) :
-    QObject(NULL), mView(view), mShowBackTimer(NULL), mPeriodicHelloTimer(NULL),
-    mClipboard(NULL), mMiniWebServer(NULL), mSettings(NULL), mDestBuddy(NULL),
-    mUpdatesChecker(NULL)
+    QObject(nullptr), mView(view), mShowBackTimer(nullptr), mPeriodicHelloTimer(nullptr),
+    mClipboard(nullptr), mMiniWebServer(nullptr), mSettings(nullptr), mDestBuddy(nullptr),
+    mUpdatesChecker(nullptr)
 {    
     // Status variables
     mView->setGuiBehindReference(this);
@@ -123,7 +123,7 @@ GuiBehind::GuiBehind(DuktoWindow* view) :
     mShowBackTimer = new QTimer(this);
     connect(mShowBackTimer, SIGNAL(timeout()), this, SLOT(showRandomBack()));
     //QRandomGenerator::global()->seed(QDateTime::currentDateTime().toTime_t());
-    qsrand(QDateTime::currentDateTime().toTime_t());
+    srand(QDateTime::currentDateTime().toTime_t());
     mShowBackTimer->start(10000);
 
     // Enqueue check for updates
@@ -178,7 +178,7 @@ void GuiBehind::showRandomBack()
 {
     // Look for a random element
     //int i = (QRandomGenerator::global()->generate() * 1.0 / RAND_MAX) * (mBuddiesList.rowCount() + 1);
-    int i = (qrand() * 1.0 / RAND_MAX) * (mBuddiesList.rowCount() + 1);
+    int i = (rand() * 1.0 / RAND_MAX) * (mBuddiesList.rowCount() + 1);
 
     // Show back
     if (i < mBuddiesList.rowCount()) mBuddiesList.showSingleBack(i);
@@ -302,7 +302,7 @@ void GuiBehind::showSendPage(QString ip)
 {
     // Check for a buddy with the provided IP address
     QStandardItem *buddy = mBuddiesList.buddyByIp(ip);
-    if (buddy == NULL) return;
+    if (buddy == nullptr) return;
 
     // Update exposed data for the selected user
     mDestBuddy->fillFromItem(buddy);

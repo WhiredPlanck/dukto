@@ -28,7 +28,7 @@
 #include <QDebug>
 
 UpdatesChecker::UpdatesChecker() :
-    mNetworkAccessManager(NULL)
+    mNetworkAccessManager(nullptr)
 {
 }
 
