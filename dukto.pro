@@ -25,19 +25,22 @@ VERSION = 6.0.0
 # Allow network access on Symbian
 symbian:TARGET.CAPABILITY += NetworkServices
 
-
 unix {
-	TARGET = dukto
-	target.path = /usr/bin
-	INSTALLS += target
+    PREFIX = $$PREFIX
+    isEmpty(PREFIX) {
+        PREFIX = /usr
+    }
+    TARGET = dukto
+    target.path = $$PREFIX/bin
+    INSTALLS += target
+
+    icon.path = $$PREFIX/share/pixmaps
+    icon.files = dukto.png
+    INSTALLS += icon
 	
-	icon.path = /usr/share/pixmaps
-	icon.files = dukto.png
-	INSTALLS += icon
-	
-	desktop.path = /usr/share/applications/
-	desktop.files = dukto.desktop
-	INSTALLS += desktop
+    desktop.path = $$PREFIX/share/applications/
+    desktop.files = dukto.desktop
+    INSTALLS += desktop
 }
 
 # If your application uses the Qt Mobility libraries, uncomment the following
