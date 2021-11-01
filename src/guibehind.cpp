@@ -118,6 +118,7 @@ GuiBehind::GuiBehind(DuktoWindow* view) :
     view->setSource(QUrl("qrc:/qml/dukto/Dukto.qml"));
     //view->setSource(QUrl::fromLocalFile("c:/users/emanuele/documenti/dukto/qml/dukto/Dukto.qml"));
 
+    view->resize(QSize(mSettings->windowGeometry().width(), mSettings->windowGeometry().height()));
     //view->restoreGeometry(mSettings->windowGeometry());
 
     // Start random rotate

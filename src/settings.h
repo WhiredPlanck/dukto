@@ -21,6 +21,7 @@
 
 #include <QObject>
 #include <QSettings>
+#include <QtCore/QRect>
 
 class Settings : public QObject
 {
@@ -29,8 +30,8 @@ public:
     explicit Settings(QObject *parent = 0);
     QString currentPath();
     void savePath(QString path);
-    void saveWindowGeometry(QByteArray geo);
-    QByteArray windowGeometry();
+    void saveWindowGeometry(QRect geo);
+    QRect windowGeometry();
     void saveThemeColor(QString color);
     QString themeColor();
     void saveShowTermsOnStart(bool show);

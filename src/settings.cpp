@@ -52,15 +52,15 @@ void Settings::savePath(QString path)
     mSettings.sync();
 }
 
-void Settings::saveWindowGeometry(QByteArray geo)
+void Settings::saveWindowGeometry(QRect geo)
 {
     mSettings.setValue("WindowPosAndSize", geo);
     mSettings.sync();
 }
 
-QByteArray Settings::windowGeometry()
+QRect Settings::windowGeometry()
 {
-    return mSettings.value("WindowPosAndSize").toByteArray();
+    return mSettings.value("WindowPosAndSize").toRect();
 }
 
 void Settings::saveThemeColor(QString color)

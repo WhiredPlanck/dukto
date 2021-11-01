@@ -27,7 +27,7 @@
 #include <QDropEvent>
 #include <QMimeData>
 
-DuktoWindow::DuktoWindow(QQuickView *parent) :
+DuktoWindow::DuktoWindow(QWindow *parent) :
     QmlApplicationViewer(parent), mGuiBehind(nullptr)
 {
     // Configure window
@@ -90,6 +90,6 @@ void DuktoWindow::dropEvent(QDropEvent *event)
 
 void DuktoWindow::closeEvent(QCloseEvent *event)
 {
-    //mGuiBehind->settings()->saveWindowGeometry(saveGeometry());
+    mGuiBehind->settings()->saveWindowGeometry(frameGeometry());
     mGuiBehind->close();
 }
