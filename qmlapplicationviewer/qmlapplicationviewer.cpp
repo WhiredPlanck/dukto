@@ -12,10 +12,11 @@
 
 #include <QDir>
 #include <QFileInfo>
-#include <QApplication>
-#include <QDeclarativeComponent>
-#include <QDeclarativeEngine>
-#include <QDeclarativeContext>
+#include <QCoreApplication>
+#include <QQmlComponent>
+#include <QQmlEngine>
+#include <QQmlContext>
+#include <QDebug>
 
 #include <qplatformdefs.h> // MEEGO_EDITION_HARMATTAN
 
@@ -77,12 +78,12 @@ QString QmlApplicationViewerPrivate::adjustPath(const QString &path)
     return path;
 }
 
-QmlApplicationViewer::QmlApplicationViewer(QWidget *parent)
-    : QDeclarativeView(parent)
+QmlApplicationViewer::QmlApplicationViewer(QWindow *parent)
+    : QQuickView(parent)
     , d(new QmlApplicationViewerPrivate())
 {
     connect(engine(), SIGNAL(quit()), SLOT(close()));
-    setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    setResizeMode(QQuickView::SizeRootObjectToView);
 
     // Qt versions prior to 4.8.0 don't have QML/JS debugging services built in
 #if defined(QMLJSDEBUGGER) && QT_VERSION < 0x040800
@@ -167,11 +168,11 @@ void QmlApplicationViewer::showExpanded()
 #endif
 }
 
-QApplication *createApplication(int &argc, char **argv)
+QGuiApplication *createApplication(int &argc, char **argv)
 {
 #ifdef HARMATTAN_BOOSTER
     return MDeclarativeCache::qApplication(argc, argv);
 #else
-    return new QApplication(argc, argv);
+    return new QGuiApplication(argc, argv);
 #endif
 }
