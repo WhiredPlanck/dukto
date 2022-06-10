@@ -357,17 +357,8 @@ void GuiBehind::sendClipboardText()
 {
     // Get text to send
     QString text = mClipboard->text();
-#ifndef Q_WS_S60
+
     if (text == "") return;
-#else
-    if (text == "") {
-        setMessagePageTitle("Send");
-        setMessagePageText("No text appears to be in the clipboard right now!");
-        setMessagePageBackState("send");
-        emit gotoMessagePage();
-        return;
-    }
-#endif
 
     // Send text
     startTransfer(text);
@@ -500,11 +491,7 @@ void GuiBehind::sendFileComplete(QStringList *files)
 
     // Show completed message
     setMessagePageTitle("Send");
-#ifndef Q_WS_S60
     setMessagePageText("Your data has been sent to your buddy!\n\nDo you want to send other files to your buddy? Just drag and drop them here!");
-#else
-    setMessagePageText("Your data has been sent to your buddy!");
-#endif
     setMessagePageBackState("send");
 
     mView->win7()->setProgressState(EcWin7::NoProgress);
@@ -829,31 +816,3 @@ QString GuiBehind::buddyName()
 {
     return mSettings->buddyName();
 }
-
-#if defined(Q_WS_S60)
-void GuiBehind::initConnection()
-{
-    // Connection
-    QNetworkConfigurationManager manager;
-    const bool canStartIAP = (manager.capabilities() & QNetworkConfigurationManager::CanStartAndStopInterfaces);
-    QNetworkConfiguration cfg = manager.defaultConfiguration();
-    if (!cfg.isValid() || (!canStartIAP && cfg.state() != QNetworkConfiguration::Active)) return;
-    mNetworkSession = new QNetworkSession(cfg, this);
-    connect(mNetworkSession, SIGNAL(opened()), this, SLOT(connectOpened()));
-    connect(mNetworkSession, SIGNAL(error(QNetworkSession::SessionError)), this, SLOT(connectError(QNetworkSession::SessionError)));
-    mNetworkSession->open();
-}
-
-void GuiBehind::connectOpened()
-{
-    mDuktoProtocol.sayHello(QHostAddress::Broadcast);
-}
-
-void GuiBehind::connectError(QNetworkSession::SessionError error)
-{
-    QString msg = "Unable to connecto to the network (code " + QString::number(error) + ").";
-    QMessageBox::critical(NULL, tr("Dukto"), msg);
-    exit(-1);
-}
-
-#endif

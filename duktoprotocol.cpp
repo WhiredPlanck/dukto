@@ -18,7 +18,7 @@
 
 #include "duktoprotocol.h"
 
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN)
     #include <windows.h>
 #endif
 
@@ -563,7 +563,7 @@ void DuktoProtocol::sendScreen(QString ipDest, qint16 port, QString path)
 void DuktoProtocol::sendMetaData()
 {
     // Impostazione buffer di invio
-#if defined(Q_WS_WIN)
+#if defined(Q_OS_WIN)
     int v = 49152;
     ::setsockopt(mCurrentSocket->socketDescriptor(), SOL_SOCKET, SO_SNDBUF, (char*)&v, sizeof(v));
 #endif

@@ -41,7 +41,7 @@ DuktoWindow::DuktoWindow(QWindow *parent) :
     mWin7.init(this->winId());
 }
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 bool DuktoWindow::winEvent(MSG * message, long * result)
 {
     return mWin7.winEvent(message, result);
