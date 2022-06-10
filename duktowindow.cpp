@@ -26,17 +26,15 @@
 #include <QDragLeaveEvent>
 #include <QDropEvent>
 
-DuktoWindow::DuktoWindow(QWidget *parent) :
+DuktoWindow::DuktoWindow(QWindow *parent) :
     QmlApplicationViewer(parent), mGuiBehind(NULL)
 {
     // Configure window
-    setAcceptDrops(true);
-    setWindowTitle("Dukto");
-#ifndef Q_WS_S60
-    setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint);
-    setMaximumSize(350, 5000);
-    setMinimumSize(350, 500);
-#endif
+    // setAcceptDrops(true); // only supported under QWidget
+    setTitle("Dukto");
+    setFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint);
+    setMaximumSize(QSize(350, 5000));
+    setMinimumSize(QSize(350, 500));
     setOrientation(QmlApplicationViewer::ScreenOrientationLockPortrait);
 
     // Taskbar integration with Win7
@@ -55,6 +53,7 @@ void DuktoWindow::setGuiBehindReference(GuiBehind* ref)
     mGuiBehind = ref;
 }
 
+/* This part is unavailable.
 void DuktoWindow::dragEnterEvent(QDragEnterEvent *event)
 {
     if (event->mimeData()->hasUrls() && mGuiBehind->canAcceptDrop())
@@ -84,9 +83,10 @@ void DuktoWindow::dropEvent(QDropEvent *event)
        event->acceptProposedAction();
     mGuiBehind->sendDroppedFiles(&files);
 }
+*/
 
 void DuktoWindow::closeEvent(QCloseEvent *event)
 {
-    mGuiBehind->settings()->saveWindowGeometry(saveGeometry());
+    mGuiBehind->settings()->saveWindowGeometry(frameGeometry());
     mGuiBehind->close();
 }
