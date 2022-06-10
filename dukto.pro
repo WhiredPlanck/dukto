@@ -84,16 +84,8 @@ HEADERS += \
 RESOURCES += \
     qml.qrc
 
-include(qtsingleapplication/qtsingleapplication.pri)
+# include(qtsingleapplication/qtsingleapplication.pri)
+include(third-party/src/singleapplication/singleapplication.pri)
+DEFINES += QAPPLICATION_CLASS=QApplication
 
 OTHER_FILES +=
-
-
-
-
-
-
-
-
-
-
