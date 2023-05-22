@@ -27,6 +27,7 @@
 #include <QHash>
 #include <QQuickView>
 #include <QQmlContext>
+#include <QQmlEngine>
 #include <QTimer>
 #include <QDateTime>
 #include <QDesktopServices>
@@ -81,12 +82,12 @@ GuiBehind::GuiBehind(DuktoWindow* view) :
     mTheme.setThemeColor(mSettings->themeColor());
 
     // Init buddy list
-    view->rootContext()->setContextProperty("buddiesListData", &mBuddiesList);
-    view->rootContext()->setContextProperty("recentListData", &mRecentList);
-    view->rootContext()->setContextProperty("ipAddressesData", &mIpAddresses);
-    view->rootContext()->setContextProperty("guiBehind", this);
-    view->rootContext()->setContextProperty("destinationBuddy", mDestBuddy);
-    view->rootContext()->setContextProperty("theme", &mTheme);
+    view->engine()->rootContext()->setContextProperty("guiBehind", this);
+    view->engine()->rootContext()->setContextProperty("buddiesListData", &mBuddiesList);
+    view->engine()->rootContext()->setContextProperty("recentListData", &mRecentList);
+    view->engine()->rootContext()->setContextProperty("ipAddressesData", &mIpAddresses);
+    view->engine()->rootContext()->setContextProperty("destinationBuddy", mDestBuddy);
+    view->engine()->rootContext()->setContextProperty("theme", &mTheme);
 
     // Register protocol signals
     connect(&mDuktoProtocol, SIGNAL(peerListAdded(Peer)), this, SLOT(peerListAdded(Peer)));
