@@ -21,9 +21,9 @@
 
 #include <QObject>
 
-#include "buddylistitemmodel.h"
-#include "recentlistitemmodel.h"
-#include "ipaddressitemmodel.h"
+#include "model/buddylistitemmodel.h"
+#include "model/recentlistitemmodel.h"
+#include "model/ipaddressitemmodel.h"
 #include "destinationbuddy.h"
 #include "duktoprotocol.h"
 #include "theme.h"

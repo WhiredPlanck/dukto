@@ -18,7 +18,7 @@
 
 #include "destinationbuddy.h"
 
-#include "buddylistitemmodel.h"
+#include "model/buddylistitemmodel.h"
 
 #include <QStandardItem>
 

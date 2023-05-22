@@ -8,10 +8,10 @@ QML_IMPORT_PATH =
 
 QT += core network qml quick widgets
 
-win32:RC_FILE = dukto.rc
+win32:RC_FILE = data/dukto.rc
 win32:LIBS += libWs2_32 libole32 libNetapi32
 
-mac:ICON = dukto.icns
+mac:ICON = data/dukto.icns
 
 VERSION = 6.0.0
 
@@ -27,16 +27,21 @@ symbian:TARGET.CAPABILITY += NetworkServices
 
 
 unix {
+        isEmpty(PREFIX) {
+            PREFIX=/usr
+        }
+        DATADIR = $$PREFIX/share
+
 	TARGET = dukto
-	target.path = /usr/bin
+        target.path = $$PREFIX/bin
 	INSTALLS += target
 	
-	icon.path = /usr/share/pixmaps
-	icon.files = dukto.png
+        icon.path = $$DATADIR/pixmaps
+        icon.files = data/dukto.png
 	INSTALLS += icon
 	
-	desktop.path = /usr/share/applications/
-	desktop.files = dukto.desktop
+        desktop.path = $$DATADIR/applications/
+        desktop.files = data/dukto.desktop
 	INSTALLS += desktop
 }
 
@@ -45,47 +50,49 @@ unix {
 # CONFIG += mobility
 # MOBILITY +=
 
+INCLUDEPATH += $$PWD/src
+
 # The .cpp file which was generated for your project. Feel free to hack it.
-SOURCES += main.cpp \
-    guibehind.cpp \
-    platform.cpp \
-    buddylistitemmodel.cpp \
-    duktoprotocol.cpp \
-    miniwebserver.cpp \
-    ipaddressitemmodel.cpp \
-    recentlistitemmodel.cpp \
-    settings.cpp \
-    destinationbuddy.cpp \
-    duktowindow.cpp \
-    ecwin7.cpp \
-    theme.cpp \
-    updateschecker.cpp
+SOURCES += src/main.cpp \
+    src/guibehind.cpp \
+    src/platform.cpp \
+    src/model/buddylistitemmodel.cpp \
+    src/duktoprotocol.cpp \
+    src/miniwebserver.cpp \
+    src/model/ipaddressitemmodel.cpp \
+    src/model/recentlistitemmodel.cpp \
+    src/settings.cpp \
+    src/destinationbuddy.cpp \
+    src/duktowindow.cpp \
+    src/ecwin7.cpp \
+    src/theme.cpp \
+    src/updateschecker.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
 
 HEADERS += \
-    guibehind.h \
-    platform.h \
-    buddylistitemmodel.h \
-    duktoprotocol.h \
-    peer.h \
-    miniwebserver.h \
-    ipaddressitemmodel.h \
-    recentlistitemmodel.h \
-    settings.h \
-    destinationbuddy.h \
-    duktowindow.h \
-    ecwin7.h \
-    theme.h \
-    updateschecker.h
+    src/guibehind.h \
+    src/platform.h \
+    src/model/buddylistitemmodel.h \
+    src/duktoprotocol.h \
+    src/peer.h \
+    src/miniwebserver.h \
+    src/model/ipaddressitemmodel.h \
+    src/model/recentlistitemmodel.h \
+    src/settings.h \
+    src/destinationbuddy.h \
+    src/duktowindow.h \
+    src/ecwin7.h \
+    src/theme.h \
+    src/updateschecker.h
 
 RESOURCES += \
     qml.qrc
 
 # include(qtsingleapplication/qtsingleapplication.pri)
-include(third-party/src/singleapplication/singleapplication.pri)
+include(third-party/singleapplication/singleapplication.pri)
 DEFINES += QAPPLICATION_CLASS=QApplication
 
 OTHER_FILES +=
