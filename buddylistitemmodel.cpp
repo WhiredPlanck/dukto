@@ -25,7 +25,7 @@
 #include "peer.h"
 
 BuddyListItemModel::BuddyListItemModel() :
-    QStandardItemModel(NULL)
+    QStandardItemModel(nullptr)
 {
     QHash<int, QByteArray> roleNames;
     roleNames[Ip] = "ip";

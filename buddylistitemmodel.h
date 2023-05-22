@@ -26,8 +26,9 @@ class QUrl;
 
 class BuddyListItemModel : public QStandardItemModel
 {
+    Q_OBJECT
 public:
-    BuddyListItemModel();
+    explicit BuddyListItemModel();
     void addMeElement();
     void addIpElement();
     void addBuddy(QString ip, qint16 port, QString username, QString system, QString platform, QUrl avatarPath);

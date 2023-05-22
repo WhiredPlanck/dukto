@@ -23,8 +23,9 @@
 
 class IpAddressItemModel : public QStandardItemModel
 {
+    Q_OBJECT
 public:
-    IpAddressItemModel();
+    explicit IpAddressItemModel();
     void refreshIpList();
 
     enum IpRoles {
